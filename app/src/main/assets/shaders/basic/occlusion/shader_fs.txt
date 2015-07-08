@@ -1,0 +1,9 @@
+#version 300 es
+
+in vec3 vTexColor;
+
+out vec4 outFragColor;
+
+void main() {
+    outFragColor = vec4(vTexColor, 1.0);
+}

@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">hailFLT</string>
+    <string name="app_title">hail flt</string>
+    <string name="splash_name">FAIRLIGHT 4-EVER</string>
+    <string name="start">START</string>
+    <string name="show_fps">Show Fps</string>
+    <string name="resolution_1080p">1080p (1920×1080)</string>
+    <string name="resolution_720p">720p (1280×720)</string>
+</resources>

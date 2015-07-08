@@ -1,0 +1,17 @@
+#version 300 es
+
+uniform sampler2D sTexture;
+uniform vec2 uAspectRatio;
+
+in vec2 vTexPosition;
+in vec2 vRadialPosition;
+
+out vec4 outFragColor;
+
+void main() {
+    vec2 k = 64.0 * uAspectRatio;
+    vec3 c = texture(sTexture, floor(vTexPosition * k) / k).rgb;
+    float gray = dot(c, vec3(0.299, 0.587, 0.114));
+    float dist = distance(fract(vRadialPosition), vec2(0.5));
+    outFragColor = vec4(c * step(dist * 1.4, gray), 1.0);
+}

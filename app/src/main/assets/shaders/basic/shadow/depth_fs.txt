@@ -1,0 +1,7 @@
+#version 300 es
+
+// out float outFragDepth;
+
+void main() {
+    // outFragDepth = gl_FragCoord.z;
+}

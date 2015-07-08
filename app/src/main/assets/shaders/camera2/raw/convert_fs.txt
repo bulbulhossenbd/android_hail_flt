@@ -1,0 +1,43 @@
+#version 300 es
+
+uniform usampler2D sTextureRaw;
+uniform sampler2D sTextureLensMap;
+uniform vec2 uTextureRawSize;
+uniform vec4 uColorCorrectionGains;
+uniform float uWhiteLevel;
+uniform vec4 uBlackLevel;
+
+in vec4 vTexPosition;
+
+out vec4 outFragColor;
+
+void main() {
+    ivec2 samplePos = ivec2(vTexPosition.zw) | 0x0001;
+    vec2 sampleFract = fract(vTexPosition.zw);
+    #define RAW(x, y) texelFetchOffset(sTextureRaw, samplePos, 0, ivec2(x, y)).r
+
+    vec4 raw = vec4(RAW(1, 1), RAW(3, 1), RAW(1, 3), RAW(3, 3));
+    raw.x = mix(raw.x, raw.y, sampleFract.x);
+    raw.z = mix(raw.z, raw.a, sampleFract.x);
+    outFragColor.r = mix(raw.x, raw.z, sampleFract.y);
+
+    raw = vec4(RAW(1, 0), RAW(3, 0), RAW(1, 2), RAW(3, 2));
+    raw.x = mix(raw.x, raw.y, sampleFract.x);
+    raw.z = mix(raw.z, raw.a, sampleFract.x);
+    outFragColor.g = mix(raw.x, raw.z, sampleFract.y);
+
+    raw = vec4(RAW(0, 1), RAW(2, 1), RAW(0, 3), RAW(2, 3));
+    raw.x = mix(raw.x, raw.y, sampleFract.x);
+    raw.z = mix(raw.z, raw.a, sampleFract.x);
+    outFragColor.b = mix(raw.x, raw.z, sampleFract.y);
+
+    raw = vec4(RAW(0, 0), RAW(2, 0), RAW(0, 2), RAW(2, 2));
+    raw.x = mix(raw.x, raw.y, sampleFract.x);
+    raw.z = mix(raw.z, raw.a, sampleFract.x);
+    outFragColor.a = mix(raw.x, raw.z, sampleFract.y);
+
+    outFragColor = (outFragColor - uBlackLevel) / (uWhiteLevel - uBlackLevel);
+    outFragColor *= uColorCorrectionGains;
+    outFragColor *= texture(sTextureLensMap, vTexPosition.xy);
+    outFragColor = vec4(outFragColor.r, mix(outFragColor.g, outFragColor.b, 0.5), outFragColor.a, 1.0);
+}

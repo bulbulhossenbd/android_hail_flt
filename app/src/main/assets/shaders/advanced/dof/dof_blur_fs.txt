@@ -1,0 +1,40 @@
+#version 300 es
+
+uniform sampler2D sTexture;
+uniform sampler2D sTextureCoc;
+uniform vec2 uSampleOffset;
+uniform int uSampleCount;
+
+in vec2 vTexPosition;
+
+out vec4 outFragColor;
+
+void readSample(inout vec4 sampleSum, inout float weightSum, in vec2 texPos, in vec2 coc) {
+    vec4 sampleColor = texture(sTexture, texPos);
+    vec2 sampleCoc = texture(sTextureCoc, texPos).rg;
+
+    vec2 weight = sampleCoc * coc;
+
+    sampleSum += sampleColor * weight.r;
+    weightSum += weight.r;
+
+    sampleSum += sampleColor * weight.g;
+    weightSum += weight.g;
+}
+
+void main() {
+    vec4 sampleCenter = texture(sTexture, vTexPosition);
+    vec2 coc = texture(sTextureCoc, vTexPosition).rg;
+
+    vec4 sampleSum = sampleCenter;
+    float weightSum = 1.0;
+
+    vec2 texOffset = uSampleOffset * max(coc.r, coc.g) * 0.5;
+    for (int i = 0; i < uSampleCount; ++i) {
+        vec2 cocW = vec2(coc.r, 1.0) * float(uSampleCount - i);
+        readSample(sampleSum, weightSum, vTexPosition + texOffset, cocW);
+        readSample(sampleSum, weightSum, vTexPosition - texOffset, cocW);
+        texOffset += uSampleOffset * max(coc.r, coc.g);
+    }
+    outFragColor = sampleSum / weightSum;
+}

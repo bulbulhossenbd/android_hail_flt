@@ -1,0 +1,12 @@
+#version 300 es
+#extension GL_OES_EGL_image_external : require
+
+uniform samplerExternalOES sTextureOES;
+
+in vec2 vTexPosition;
+
+out vec4 outFragColor;
+
+void main() {
+    outFragColor = texture(sTextureOES, vTexPosition);
+}

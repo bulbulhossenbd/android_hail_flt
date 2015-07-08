@@ -1,0 +1,32 @@
+#version 300 es
+
+uniform sampler2D sTexture;
+uniform vec2 uPixelSize;
+
+in vec2 vTexPosition;
+
+out vec4 outFragColor;
+
+float intensity(int dx, int dy) {
+    vec3 c = texture(sTexture, vTexPosition + uPixelSize * vec2(dx, dy)).rgb;
+    return length(c);
+}
+
+void main() {
+    mat3 sobel3x3 = mat3( -1.0,  0.0,  1.0,
+                          -2.0,  0.0,  2.0,
+                          -1.0,  0.0,  1.0 );
+
+    float sx = 0.0;
+    float sy = 0.0;
+    for (int idx = 0; idx < 9; ++idx) {
+        int y = idx / 3;
+        int x = idx - y * 3;
+        float i = intensity(x - 1, y - 1);
+        sx += sobel3x3[y][x] * i;
+        sy += sobel3x3[x][y] * i;
+
+    }
+    float c = length(vec2(sx, sy));
+    outFragColor = vec4(c * 0.3, c, c * 0.3, 1.0);
+}

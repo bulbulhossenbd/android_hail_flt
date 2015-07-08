@@ -1,0 +1,17 @@
+#version 300 es
+
+uniform mat4 uModelViewMat;
+uniform mat4 uModelViewProjMat;
+
+uniform vec3 uColor;
+
+layout (location = 0) in vec4 inPosition;
+layout (location = 1) in vec3 inNormal;
+
+out vec3 vTexColor;
+
+void main() {
+    gl_Position = uModelViewProjMat * inPosition;
+    vec3 normal = mat3(uModelViewMat) * inNormal;
+    vTexColor = uColor * normalize(normal).z;
+}

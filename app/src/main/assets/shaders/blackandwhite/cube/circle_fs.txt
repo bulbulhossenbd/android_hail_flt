@@ -1,0 +1,11 @@
+#version 300 es
+
+uniform sampler2D sTextureIn;
+
+in vec2 texturePos;
+
+out vec4 outColor;
+
+void main() {
+    outColor = texture(sTextureIn, texturePos);
+}

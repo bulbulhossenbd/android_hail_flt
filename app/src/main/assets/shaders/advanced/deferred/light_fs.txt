@@ -1,0 +1,48 @@
+#version 300 es
+precision highp float;
+
+uniform sampler2D sNormal;
+uniform sampler2D sDepth;
+uniform vec3 uSpecular;
+uniform vec3 uDiffuse;
+uniform mat4 uProjMatInv;
+uniform vec2 uSurfaceSizeInv;
+
+in vec2 vTexPosition;
+
+out vec4 outFragColor;
+
+vec4 brdf(vec3 Nn, vec3 Vn, vec3 Ln, float m) {
+    vec3 H = normalize(Vn + Ln);
+
+    float NdotV = dot(Nn, Vn);
+    float NdotL = dot(Nn, Ln);
+    float NdotH = dot(Nn, H);
+    float VdotH = dot(Vn, H);
+
+    float m_2 = m * m;
+    float NdotH_2 = NdotH * NdotH;
+    float D = exp((NdotH_2 - 1.0) / (m_2 * NdotH_2)) / (3.14159 * m_2 * NdotH_2 * NdotH_2);
+
+    float G_const = (2.0 * NdotH) / VdotH;
+    float G = min(1.0, min(G_const * NdotV, G_const * NdotL));
+
+    vec3 F = mix(uSpecular, vec3(1.0), pow(1.0 - max(0.0, NdotV), 5.0));
+
+    vec3 Rs = clamp((F * D * G) / (4.0 * NdotV * NdotL), 0.0, 1.0);
+    vec3 Rd = clamp(uDiffuse * NdotL * (1.0 - dot(uSpecular, vec3(0.299, 0.587, 0.114))), 0.0, 1.0);
+    return vec4(Rs + Rd, dot(Rs, vec3(0.2126, 0.7152, 0.0722)));
+}
+
+void main() {
+    vec4 N = texture(sNormal, vTexPosition);
+    float depth = texture(sDepth, vTexPosition).r;
+    vec4 P = uProjMatInv * vec4(2.0 * gl_FragCoord.xy * uSurfaceSizeInv - 1.0, depth, 1.0);
+    P.xyz /= P.w;
+
+    vec3 Nn = normalize(N.xyz);
+    vec3 Vn = normalize(-P.xyz);
+    vec3 Ln = normalize(vec3(0.0, 0.0, 0.0) - P.xyz);
+
+	outFragColor = brdf(Nn, Vn, Ln, N.w);
+}

@@ -1,0 +1,11 @@
+#version 300 es
+
+uniform float uRoughness;
+
+in vec3 vNormal;
+
+out vec4 outFragNormal;
+
+void main() {
+    outFragNormal = vec4(normalize(vNormal), uRoughness);
+}

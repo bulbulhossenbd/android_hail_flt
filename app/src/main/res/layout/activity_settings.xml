@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <LinearLayout
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginBottom="60dp"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:src="@drawable/opengl_512"
+                android:scaleType="fitXY" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-thin"
+                android:text="@string/app_title"
+                android:textColor="#FFF"
+                android:textSize="52sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginBottom="60dp"
+            android:orientation="vertical"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Render Resolution"
+                android:textColor="#A8A8A8"
+                android:textSize="20sp"
+                android:fontFamily="sans-serif-thin" />
+
+            <RadioGroup
+                android:id="@+id/radiogroup_resolution"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <RadioButton
+                    android:id="@+id/radiobutton_1080p"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/resolution_1080p"
+                    android:textColor="#FFF"
+                    android:textSize="20sp"
+                    android:fontFamily="sans-serif-thin" />
+
+                <RadioButton
+                    android:id="@+id/radiobutton_720p"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/resolution_720p"
+                    android:textColor="#FFF"
+                    android:textSize="20sp"
+                    android:fontFamily="sans-serif-thin" />
+
+            </RadioGroup>
+
+            <CheckBox
+                android:id="@+id/checkbox_fps"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="@string/show_fps"
+                android:textColor="#FFF"
+                android:textSize="20sp"
+                android:fontFamily="sans-serif-thin" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/button_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
+        android:fontFamily="sans-serif-thin"
+        android:text="@string/start"
+        android:textColor="#FFF"
+        android:textSize="24sp"
+        android:paddingLeft="40dp"
+        android:paddingRight="40dp" />
+
+</RelativeLayout>

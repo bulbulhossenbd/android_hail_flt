@@ -1,0 +1,22 @@
+#version 300 es
+
+in vec3 vPosition;
+in vec3 vNormal;
+
+out vec4 outFragColor;
+
+void main() {
+    vec3 L = normalize(vec3(0.0) - vPosition);
+    vec3 E = normalize(-vPosition);
+    vec3 R = normalize(-reflect(L, vNormal));
+
+    float Iamb = 0.3;
+
+    float Idiff = 0.4 * max(dot(vNormal, L), 0.0);
+    Idiff = clamp(Idiff, 0.0, 1.0);
+
+    float Ispec = 0.8 * pow(max(dot(R, E), 0.0), 0.3 * 32.0);
+    Ispec = clamp(Ispec, 0.0, 1.0);
+
+    outFragColor = vec4(vec3(Iamb + Idiff + Ispec), -vPosition.z);
+}
