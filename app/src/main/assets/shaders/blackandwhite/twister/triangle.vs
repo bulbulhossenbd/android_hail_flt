@@ -20,9 +20,9 @@ void main()
 
     float sinphi = sin(phi);
     float cosphi = cos(phi);
-    vec2 dir = vec2(sinphi, cosphi) * sqrt(ii) * 0.1;
-    float scaleDist = length(dir) * 0.05;
-    float scale = (-dir.y + 2.0) * 0.02;
+    vec2 dir = vec2(sinphi, cosphi) * sqrt(ii) * 0.03;
+    float scaleDist = length(dir) * 0.001;
+    float scale = (-dir.y + 1.0) * 0.01;
 
     pos.xy = pos.xy * mat2(cosphi, sinphi, -sinphi, cosphi);
     pos.xy *= scale;
