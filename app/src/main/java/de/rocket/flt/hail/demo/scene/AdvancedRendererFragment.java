@@ -69,7 +69,7 @@ abstract class AdvancedRendererFragment extends RendererFragment {
     }
 
     protected void renderScene(int uModelView, int uModelViewProj) {
-        float t = SystemClock.uptimeMillis() % 20000 / 20000f;
+        float t = getMediaPlayer().getCurrentPosition() % 40000 / 40000f;
         float x = (float) (Math.sin(t * Math.PI * 2.0) * 8.0) + 8.0f;
         float z = (float) (Math.cos(t * Math.PI * 2.0) * 2.0) + 5f;
         glCamera.setPos(new float[]{x, 0f, z});

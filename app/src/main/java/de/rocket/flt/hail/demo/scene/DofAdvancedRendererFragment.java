@@ -196,8 +196,8 @@ public class DofAdvancedRendererFragment extends AdvancedRendererFragment {
         renderQuad();
 
         float aspectRatio = (float) surfaceSize.getWidth() / surfaceSize.getHeight();
-        renderDof(0.008f, 0.008f * aspectRatio, 1);
-        renderDof(0.002f, 0.002f * aspectRatio, 1);
+        renderDof(0.002f, 0.002f * aspectRatio, 3);
+        //renderDof(0.002f, 0.002f * aspectRatio, 1);
 
         glProgramDofOut.useProgram();
         glFramebufferDofVert.unbind(GLES30.GL_DRAW_FRAMEBUFFER);

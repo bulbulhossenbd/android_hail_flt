@@ -22,7 +22,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".demo.SettingsActivity"
+            android:name=".demo.CreditsActivity"
             android:screenOrientation="landscape" />
         <activity
             android:name=".demo.DemoActivity"

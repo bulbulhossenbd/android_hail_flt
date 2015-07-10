@@ -85,7 +85,7 @@ public class SplashActivity extends Activity {
         progressBar.setMax(event.getMaxProgress());
         if (event.getProgress() >= event.getMaxProgress()) {
             finish();
-            startActivity(new Intent(this, SettingsActivity.class));
+            startActivity(new Intent(this, CreditsActivity.class));
             overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
         }
     }

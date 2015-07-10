@@ -34,13 +34,14 @@ import de.rocket.flt.hail.demo.scene.TwisterRendererFragment;
 public class DemoActivity extends Activity implements RendererFragment.RendererHost {
 
     private enum Scene {
-        NONE, TWISTER, TWISTER_TEXT, TWISTER_TEXT_RIPPLE, TWISTER_TEXT_UH,
+        NONE,
+        TWISTER,
+        TWISTER_TEXT,
+        TWISTER_TEXT_RIPPLE_OFF,
+        TWISTER_TEXT_RIPPLE_ON,
+        TWISTER_TEXT_UH,
         TWISTER_TEXT_OUT
     }
-
-    private final static String EXTRA_RESOLUTION_WIDTH = "EXTRA_RESOLUTION_WIDTH";
-    private final static String EXTRA_RESOLUTION_HEIGHT = "EXTRA_RESOLUTION_HEIGHT";
-    private final static String EXTRA_SHOW_FPS = "EXTRA_SHOW_FPS";
 
     private TextView textView;
     private RippleDrawable rippleDrawable;
@@ -49,11 +50,8 @@ public class DemoActivity extends Activity implements RendererFragment.RendererH
     private MediaPlayer mediaPlayer;
     private Timer timer;
 
-    public static Intent newIntent(Context context, int width, int height, boolean showFps) {
+    public static Intent newIntent(Context context) {
         Intent intent = new Intent(context, DemoActivity.class);
-        intent.putExtra(EXTRA_RESOLUTION_WIDTH, width);
-        intent.putExtra(EXTRA_RESOLUTION_HEIGHT, height);
-        intent.putExtra(EXTRA_SHOW_FPS, showFps);
         return intent;
     }
 
@@ -127,7 +125,7 @@ public class DemoActivity extends Activity implements RendererFragment.RendererH
                 ft.commitAllowingStateLoss();
                 textView.setAlpha(0f);
             }
-        } else if (position < 10000) {
+        } else if (position < 9000) {
             if (scene != Scene.TWISTER_TEXT) {
                 scene = Scene.TWISTER_TEXT;
 
@@ -141,13 +139,29 @@ public class DemoActivity extends Activity implements RendererFragment.RendererH
 
                 AnimatorSet animatorSet = new AnimatorSet();
                 animatorSet.playTogether(animators);
-                animatorSet.setDuration(6000);
+                animatorSet.setDuration(5000);
                 animatorSet.start();
+
+                final int STATES[][] = {{android.R.attr.state_pressed, android.R.attr.state_enabled}};
+                final int COLORS[] = {0xFF3366FF};
+                rippleDrawable.setColor(new ColorStateList(STATES, COLORS));
+
+                rippleDrawable.setHotspot(0, 0);
+                rippleDrawable.setState(new int[]{android.R.attr.state_pressed, android.R.attr.state_enabled});
+            }
+        } else if (position < 11500) {
+            if (scene != Scene.TWISTER_TEXT_RIPPLE_OFF) {
+                scene = Scene.TWISTER_TEXT_RIPPLE_OFF;
+                rippleDrawable.setState(new int[]{});
             }
         } else if (position < 19000) {
-            if (scene != Scene.TWISTER_TEXT_RIPPLE) {
-                scene = Scene.TWISTER_TEXT_RIPPLE;
-                rippleDrawable.setHotspot(0, 0);
+            if (scene != Scene.TWISTER_TEXT_RIPPLE_ON) {
+                scene = Scene.TWISTER_TEXT_RIPPLE_ON;
+                final int STATES[][] = {{android.R.attr.state_pressed, android.R.attr.state_enabled}};
+                final int COLORS[] = {0xFF404040};
+                rippleDrawable.setColor(new ColorStateList(STATES, COLORS));
+
+                rippleDrawable.setHotspot(textView.getWidth(), textView.getHeight());
                 rippleDrawable.setState(new int[]{android.R.attr.state_pressed, android.R.attr.state_enabled});
             }
         } else if (position < 20000) {
