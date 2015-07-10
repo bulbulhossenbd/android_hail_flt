@@ -10,8 +10,8 @@ out vec4 outFragColor;
 
 void main() {
     vec4 L = texture(sLight, gl_FragCoord.xy * uSurfaceSizeInv);
-    vec3 Camb  = 0.5 * vColor;
-    vec3 Cdiff = 0.5 * vColor * L.rgb;
-    vec3 Cspec = 0.5 * vColor * L.rgb * (L.a / (dot(L.rgb, vec3(0.2126, 0.7152, 0.0722)) + 0.0000001));
+    vec3 Camb  = 0.2 * vColor;
+    vec3 Cdiff = 0.4 * vColor * L.rgb;
+    vec3 Cspec = 0.2 * vColor * L.rgb * (L.a / (dot(L.rgb, vec3(0.2126, 0.7152, 0.0722)) + 0.0000001));
     outFragColor = vec4(Camb + Cdiff + Cspec, 1.0);
 }

@@ -2,7 +2,7 @@
     <string name="app_name">hailFLT</string>
     <string name="splash_name">FAIRLIGHT 4-EVER</string>
 
-    <string name="app_title">hail flt</string>
+    <string name="app_title">hail_flt</string>
     <string name="app_credits">code:\n<b>failright</b>\n\nmusic:\n<b>froogle</b>\n<small><b>dl: goo.gl/V3eQOy</b></small></string>
     <string name="start">START</string>
 </resources>

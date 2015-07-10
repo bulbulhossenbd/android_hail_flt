@@ -41,8 +41,8 @@ void main() {
     P.xyz /= P.w;
 
     vec3 Nn = normalize(N.xyz);
-    vec3 Vn = normalize(-P.xyz);
-    vec3 Ln = normalize(vec3(0.0, 0.0, 0.0) - P.xyz);
+    vec3 Vn = normalize(P.xyz);
+    vec3 Ln = normalize(vec3(0.0, 10.0, 100.0) - P.xyz);
 
 	outFragColor = brdf(Nn, Vn, Ln, N.w);
 }

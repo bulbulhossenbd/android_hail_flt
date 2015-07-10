@@ -24,8 +24,12 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import de.rocket.flt.hail.R;
+import de.rocket.flt.hail.demo.scene.CubemapBasicRendererFragment;
+import de.rocket.flt.hail.demo.scene.DeferredAdvancedRendererFragment;
 import de.rocket.flt.hail.demo.scene.DofAdvancedRendererFragment;
+import de.rocket.flt.hail.demo.scene.OcclusionBasicRendererFragment;
 import de.rocket.flt.hail.demo.scene.RendererFragment;
+import de.rocket.flt.hail.demo.scene.TunnelRendererFragment;
 import de.rocket.flt.hail.demo.scene.TwisterRendererFragment;
 
 /**
@@ -40,7 +44,15 @@ public class DemoActivity extends Activity implements RendererFragment.RendererH
         TWISTER_TEXT_RIPPLE_OFF,
         TWISTER_TEXT_RIPPLE_ON,
         TWISTER_TEXT_UH,
-        TWISTER_TEXT_OUT
+        TWISTER_TEXT_OUT,
+        GLES3X_COLOR_GREEN,
+        GLES3X_COLOR_PINK,
+        TUNNEL,
+        CUBEMAP,
+        DEFERRED,
+        DEFERRED_TWO,
+        OCCLUSION_QUERY,
+        OCCLUSION_QUERY_GREETINGS
     }
 
     private TextView textView;
@@ -125,7 +137,7 @@ public class DemoActivity extends Activity implements RendererFragment.RendererH
                 ft.commitAllowingStateLoss();
                 textView.setAlpha(0f);
             }
-        } else if (position < 9000) {
+        } else if (position < 9500) {
             if (scene != Scene.TWISTER_TEXT) {
                 scene = Scene.TWISTER_TEXT;
 
@@ -149,7 +161,7 @@ public class DemoActivity extends Activity implements RendererFragment.RendererH
                 rippleDrawable.setHotspot(0, 0);
                 rippleDrawable.setState(new int[]{android.R.attr.state_pressed, android.R.attr.state_enabled});
             }
-        } else if (position < 11500) {
+        } else if (position < 14000) {
             if (scene != Scene.TWISTER_TEXT_RIPPLE_OFF) {
                 scene = Scene.TWISTER_TEXT_RIPPLE_OFF;
                 rippleDrawable.setState(new int[]{});
@@ -174,10 +186,78 @@ public class DemoActivity extends Activity implements RendererFragment.RendererH
                 ft.replace(R.id.container, new DofAdvancedRendererFragment());
                 ft.commitAllowingStateLoss();
             }
-        } else if (position < 30000) {
+        } else if (position < 28000) {
             if (scene != Scene.TWISTER_TEXT_OUT) {
                 scene = Scene.TWISTER_TEXT_OUT;
                 textView.animate().alpha(0f).setDuration(2000).start();
+            }
+        } else if (position < 37000) {
+            if (scene != Scene.GLES3X_COLOR_GREEN) {
+                scene = Scene.GLES3X_COLOR_GREEN;
+
+                textView.setText("");
+                textView.setAlpha(1f);
+                textView.setBackground(rippleDrawable);
+
+                final int STATES[][] = {{android.R.attr.state_pressed, android.R.attr.state_enabled}};
+                final int COLORS[] = {0x4040FF40};
+                rippleDrawable.setColor(new ColorStateList(STATES, COLORS));
+
+                rippleDrawable.setHotspot(textView.getWidth() * .5f, textView.getHeight() * .5f);
+                rippleDrawable.setState(new int[]{android.R.attr.state_pressed, android.R.attr.state_enabled});
+            }
+        } else if (position < 46000) {
+            if (scene != Scene.GLES3X_COLOR_PINK) {
+                scene = Scene.GLES3X_COLOR_PINK;
+
+                final int STATES[][] = {{android.R.attr.state_pressed, android.R.attr.state_enabled}};
+                final int COLORS[] = {0x40FF4040};
+                rippleDrawable.setColor(new ColorStateList(STATES, COLORS));
+            }
+        } else if (position < 64000) {
+            if (scene != Scene.TUNNEL) {
+                scene = Scene.TUNNEL;
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.setCustomAnimations(R.animator.renderer_in, R.animator.renderer_out);
+                ft.replace(R.id.container, new TunnelRendererFragment());
+                ft.commitAllowingStateLoss();
+            }
+        } else if (position < 83000) {
+            if (scene != Scene.CUBEMAP) {
+                scene = Scene.CUBEMAP;
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.setCustomAnimations(R.animator.renderer_in, R.animator.renderer_out);
+                ft.replace(R.id.container, new CubemapBasicRendererFragment());
+                ft.commitAllowingStateLoss();
+            }
+        } else if (position < 92000) {
+            if (scene != Scene.DEFERRED) {
+                scene = Scene.DEFERRED;
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.setCustomAnimations(R.animator.renderer_in, R.animator.renderer_out);
+                ft.replace(R.id.container, new DeferredAdvancedRendererFragment());
+                ft.commitAllowingStateLoss();
+            }
+        } else if (position < 120000) {
+            if (scene != Scene.DEFERRED_TWO) {
+                scene = Scene.DEFERRED_TWO;
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.setCustomAnimations(R.animator.renderer_in, R.animator.renderer_out);
+                ft.replace(R.id.container, new DeferredAdvancedRendererFragment());
+                ft.commitAllowingStateLoss();
+            }
+        } else if (position < 121000) {
+            if (scene != Scene.OCCLUSION_QUERY) {
+                scene = Scene.OCCLUSION_QUERY;
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.setCustomAnimations(R.animator.renderer_in, R.animator.renderer_out);
+                ft.replace(R.id.container, new OcclusionBasicRendererFragment());
+                ft.commitAllowingStateLoss();
+            }
+        } else if (position < 150000) {
+            if (scene != Scene.OCCLUSION_QUERY_GREETINGS) {
+                scene = Scene.OCCLUSION_QUERY_GREETINGS;
+                textView.setText("greetings smash destop");
             }
         }
     }
